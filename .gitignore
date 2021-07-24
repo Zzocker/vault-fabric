@@ -1,3 +1,5 @@
 network/artifacts/*
 network/crypto-config
 vendor
+node_modules
+package-lock.json
