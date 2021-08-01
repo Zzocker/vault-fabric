@@ -93,14 +93,17 @@ function installCC(){
         errro "failed to instantiate chaincode"
         exit
     fi
+    docker exec -it cli peer chaincode invoke -C devchannel -n basic-transfer -c '{"args" : ["InitLedger"]}' 
 }
 
 function cleanFolders(){
     rm -r crypto-config
     rm -r artifacts/*
+    rm -r ../default/wallet
 }
 
 function cleanDocker(){
+    set +e
     docker rm -f cli devpeer orderer ca db
     docker rm -f $(docker ps -f "name=dev-*" -aq)
     docker volume prune
@@ -131,7 +134,7 @@ case $OPTION in
         ##############################################################
         ##############################################################
         docker-compose up -d
-        sleep 5
+        sleep 10
         joinChannel
         sleep 5
         installCC
